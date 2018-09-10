@@ -24,17 +24,43 @@ int main()
 	sf::Sprite buttonSprite;
 	buttonSprite.setTexture(buttonTexture);
 
-
-	// Create Music
-	sf::Music gameMusic;
-	gameMusic.openFromFile("audio/music.ogg");
-	//gameMusic.play();
-
 	// Center the sprite on the screen
 	buttonSprite.setPosition(
 		gameWindow.getSize().x / 2 - buttonTexture.getSize().x / 2,
 		gameWindow.getSize().y / 2 - buttonTexture.getSize().y / 2
-	);
+	);
+
+
+	// Create Music
+	sf::Music gameMusic;
+	gameMusic.openFromFile("audio/music.ogg");
+	//gameMusic.play();
+
+	// Create Font
+	sf::Font gameFont;
+	gameFont.loadFromFile("fonts/mainFont.ttf");
+
+	// Create Title
+	sf::Text titleText;
+	titleText.setFont(gameFont);
+	titleText.setString("Button Masher!");
+
+	titleText.setCharacterSize(100);
+	titleText.setFillColor(sf::Color::Cyan);
+	titleText.setStyle(sf::Text::Bold | sf::Text::Italic);
+
+	titleText.setPosition(gameWindow.getSize().x / 2 
+		- titleText.getLocalBounds().width / 2, 
+		30);
+
+	// Author Text
+	sf::Text authorText;
+	authorText.setFont(gameFont);
+	authorText.setString("by Sarah Herzog");
+	authorText.setCharacterSize(16);
+	authorText.setFillColor(sf::Color::Magenta);
+	authorText.setStyle(sf::Text::Italic);
+	authorText.setPosition(gameWindow.getSize().x / 2 		- authorText.getLocalBounds().width / 2, 		150);
 
 	// --------------------------------------
 	// Game Loop
@@ -65,6 +91,8 @@ int main()
 
 		// Draw everything
 		gameWindow.draw(buttonSprite);
+		gameWindow.draw(titleText);
+		gameWindow.draw(authorText);
 
 		// Display the window contents on the screen
 		gameWindow.display();
