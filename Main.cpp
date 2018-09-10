@@ -1,7 +1,7 @@
 // Included Libraries
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-
+#include <string>
 
 
 // entry point for the program
@@ -34,7 +34,8 @@ int main()
 	// Create Music
 	sf::Music gameMusic;
 	gameMusic.openFromFile("audio/music.ogg");
-	//gameMusic.play();
+	//gameMusic.play();
+
 
 	// Create Font
 	sf::Font gameFont;
@@ -60,7 +61,20 @@ int main()
 	authorText.setCharacterSize(16);
 	authorText.setFillColor(sf::Color::Magenta);
 	authorText.setStyle(sf::Text::Italic);
-	authorText.setPosition(gameWindow.getSize().x / 2 		- authorText.getLocalBounds().width / 2, 		150);
+	authorText.setPosition(gameWindow.getSize().x / 2 
+		- authorText.getLocalBounds().width / 2, 
+		150);
+
+	// Score
+	int score = 1000000;
+
+	// Score Text
+	sf::Text scoreText;
+	scoreText.setFont(gameFont);
+	scoreText.setString("Score: " + std::to_string(score));
+	scoreText.setCharacterSize(16);
+	scoreText.setFillColor(sf::Color::White);
+	scoreText.setPosition(30, 30);
 
 	// --------------------------------------
 	// Game Loop
@@ -83,9 +97,13 @@ int main()
 			}
 		}
 
-		// TODO: Update game state
+		// Update game state
+		score = score + 11564655468;
+		scoreText.setString("Score: " + std::to_string(score));
 
-		// TODO: Draw graphics
+
+
+		// Draw graphics
 		// Clear the window to a single colour
 		gameWindow.clear(sf::Color::Black);
 
@@ -93,9 +111,11 @@ int main()
 		gameWindow.draw(buttonSprite);
 		gameWindow.draw(titleText);
 		gameWindow.draw(authorText);
+		gameWindow.draw(scoreText);
 
 		// Display the window contents on the screen
-		gameWindow.display();
+		gameWindow.display();
+
 	}
 
 	// exit point for the program
