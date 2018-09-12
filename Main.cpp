@@ -99,6 +99,8 @@ int main()
 	// Timer functionality
 	sf::Time timeLimit = sf::seconds(10.0f);
 	sf::Time timeRemaining = timeLimit;
+	sf::Time deadTimeLimit = sf::seconds(3.0f);
+	sf::Time deadTimeRemaining = sf::seconds(0.0f);
 	sf::Clock gameClock;
 
 	// Click sound effect
@@ -106,6 +108,12 @@ int main()
 	clickBuffer.loadFromFile("audio/buttonclick.ogg");
 	sf::Sound clickSound;
 	clickSound.setBuffer(clickBuffer);
+
+	// Game over sound effect
+	sf::SoundBuffer gameOverBuffer;
+	gameOverBuffer.loadFromFile("audio/gameover.ogg");
+	sf::Sound gameOverSound;
+	gameOverSound.setBuffer(gameOverBuffer);
 
 	// Game State
 	bool playing = false;
@@ -135,7 +143,7 @@ int main()
 						// yes - increase score!
 						score = score + 1;
 					}
-					else
+					else if (deadTimeRemaining.asSeconds() <= 0.0f)
 					{
 						// no - start playing now!
 						playing = true;
@@ -149,6 +157,10 @@ int main()
 
 					// play the click sound
 					clickSound.play();
+				}
+				else
+				{
+					// play bad click sound here
 				}
 			}
 
@@ -171,7 +183,18 @@ int main()
 			{
 				timeRemaining = sf::seconds(0.0f);
 				playing = false;
-				promptText.setString("Your final score was " + std::to_string(score) + "!\nClick the button to start a new game!");
+				promptText.setString("Your final score was " + std::to_string(score) + "!");
+				gameOverSound.play();
+				deadTimeRemaining = deadTimeLimit;
+			}
+		}
+		else
+		{
+			deadTimeRemaining = deadTimeRemaining - frameTime;
+
+			if (deadTimeRemaining.asSeconds() <= 0)
+			{
+				promptText.setString("Click the button to start a new game!");
 			}
 		}
 
